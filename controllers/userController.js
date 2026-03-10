@@ -62,9 +62,6 @@ const userID = async (req, res) => {
 
         const { id } = req.params
 
-        // if (req.user.role !== 'admin' && req.user._id !== id) {
-        //     return res.status(403).json({ message: "Not allowed" });
-        // }
 
         if (req.user.role !== 'admin' && req.user.id.toString() !== req.params.id.toString()) {
             return res.status(403).json({ message: "Not allowed" });
@@ -108,10 +105,6 @@ const deleteUser = async (req, res) => {
             return res.status(403).json({ message: "Not allowed" });
         }
 
-        // if (req.user.role !== 'admin' && req.user.id.toString() !== req.params.id.toString()) {
-        //     return res.status(403).json({ message: "Not allowed" });
-        // }
-
         const data = await User.findByIdAndDelete(id)
 
         if (!data) {
@@ -150,10 +143,6 @@ const updateUser = async (req, res) => {
     try {
 
         const { id } = req.params
-
-        // if (req.user.role !== 'admin' && req.user._id !== id) {
-        //     return res.status(403).json({ message: "Not allowed" });
-        // }
 
         if (req.user.role !== 'admin' && req.user.id.toString() !== req.params.id.toString()) {
             return res.status(403).json({ message: "Not allowed" });
