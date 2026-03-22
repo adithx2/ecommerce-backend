@@ -28,6 +28,12 @@ const createUser = async (req, res) => {
 
         const saltRounds = 10;
 
+        const userExist = await User.findOne(email)
+
+        if (userExist) {
+
+            res.status(400).json({ error: "Email already exist" })
+        }
         bcrypt.hash(password, saltRounds, async (err, hash) => {
 
             if (err) {
@@ -248,7 +254,7 @@ const logout = (req, res) => {
         res.clearCookie("token", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
         });
 
         return res.status(200).json({ message: "Logged out successfully" });
