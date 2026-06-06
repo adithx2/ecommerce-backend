@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const getProducts = async (req, res) => {
     try {
 
-        const { category, minPrice, maxPrice, search, sort, page = 1 , limit = 40 } = req.query;
+        const { category, minPrice, maxPrice, search, sort, page = 1, limit = 40 } = req.query;
 
         let filter = {};
         if (search) {
@@ -34,10 +34,6 @@ const getProducts = async (req, res) => {
 
                 filter.price.$lte = Number(maxPrice);
             }
-
-           
-           
-
         }
 
         let sortOption = {}
