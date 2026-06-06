@@ -14,13 +14,15 @@ app.use(cookieParser())
 
 app.use(express.json())
 
-const frontend_url = process.env.FRONTEND_URL
+const frontend_url = process.env.FRONTEND_URL;
+const allowedOrigins = frontend_url 
+    ? frontend_url.split(',').map(url => url.trim()) 
+    : ['http://localhost:5173'];
 
 app.use(cors({
-
-    origin: frontend_url,
+    origin: allowedOrigins,
     credentials: true,
-}))
+}));
 
 app.use('/users', userRoutes)
 
