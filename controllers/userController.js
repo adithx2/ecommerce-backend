@@ -28,7 +28,7 @@ const createUser = async (req, res) => {
 
         const saltRounds = 10;
 
-        const userExist = await User.findOne(email)
+        const userExist = await User.findOne({ email })
 
         if (userExist) {
 
@@ -49,8 +49,8 @@ const createUser = async (req, res) => {
             }
 
             const user = new User(userItems)
-            await user.save()
-            res.status(201).json({ user: User, message: "User created" })
+            const savedUser = await user.save()
+            res.status(201).json({ user: savedUser, message: "User created" })
         })
 
 
@@ -228,7 +228,13 @@ const login = async (req, res) => {
 
         let payload = { id: user._id, name: user.name, email: user.email, role: user.role };
         const token = generateToken(payload)
-        res.cookie("token", token)
+        const isProduction = process.env.NODE_ENV === 'production';
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
+            maxAge: 15 * 60 * 1000, // 15 minutes
+        });
         res.status(200).json({
             message: "Login successful",
 
