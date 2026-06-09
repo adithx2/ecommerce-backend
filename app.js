@@ -31,7 +31,7 @@ app.use('/products', productRoutes)
 
 app.get('/', (req, res) => {
 
-    res.sen('Hello World')
+    res.send('Hello World')
 })
 
 const port = process.env.PORT || 5000
