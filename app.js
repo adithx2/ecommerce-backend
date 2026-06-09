@@ -15,8 +15,8 @@ app.use(cookieParser())
 app.use(express.json())
 
 const frontend_url = process.env.FRONTEND_URL;
-const allowedOrigins = frontend_url 
-    ? frontend_url.split(',').map(url => url.trim()) 
+const allowedOrigins = frontend_url
+    ? frontend_url.split(',').map(url => url.trim())
     : ['http://localhost:5173'];
 
 app.use(cors({
@@ -31,8 +31,7 @@ app.use('/products', productRoutes)
 
 app.get('/', (req, res) => {
 
-    console.log("Hello World")
-
+    res.sen('Hello World')
 })
 
 const port = process.env.PORT || 5000
