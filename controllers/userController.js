@@ -157,10 +157,13 @@ const updateUser = async (req, res) => {
         const data = req.body
 
         const update = await User.findByIdAndUpdate(
-            id, data, {
-            new: true,
-            runValidators: true
-        })
+
+            id, data,
+            {
+                new: true,
+                runValidators: true
+
+            })
 
         if (!update) {
 
@@ -228,11 +231,11 @@ const login = async (req, res) => {
 
         let payload = { id: user._id, name: user.name, email: user.email, role: user.role };
         const token = generateToken(payload)
-        const isProduction = process.env.NODE_ENV === 'production';
+        const isDeployed = (process.env.FRONTEND_URL || '').includes('https');
         res.cookie("token", token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: isProduction ? "none" : "lax",
+            secure: isDeployed,
+            sameSite: isDeployed ? "none" : "lax",
             maxAge: 15 * 60 * 1000, // 15 minutes
         });
         res.status(200).json({
@@ -256,11 +259,11 @@ const checkUser = async (req, res) => {
 
 const logout = (req, res) => {
     try {
-
+        const isDeployed = (process.env.FRONTEND_URL || '').includes('https');
         res.clearCookie("token", {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "none",
+            secure: isDeployed,
+            sameSite: isDeployed ? "none" : "lax",
         });
 
         return res.status(200).json({ message: "Logged out successfully" });
