@@ -12,7 +12,8 @@ const app = express()
 
 const allowedOrigins = [
 
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://ecommerce-frontend-pi-woad.vercel.app/"
 ];
 
 app.use(cors({
